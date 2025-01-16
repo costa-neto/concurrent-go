@@ -27,9 +27,9 @@ func main() {
 	}
 
 	wg.Add(len(incomes))
-	for i, income := range incomes {
+	for _, income := range incomes {
 
-		go func(i int, income Income) {
+		go func(income Income) {
 			defer wg.Done()
 			for week := 1; week <= 52; week++ {
 				balance.Lock()
@@ -40,7 +40,7 @@ func main() {
 
 				fmt.Printf("On week %d, you earned %d.00 from %s\n", week, income.Amount, income.Source)
 			}
-		}(i, income)
+		}(income)
 	}
 
 	wg.Wait()
